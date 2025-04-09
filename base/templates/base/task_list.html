@@ -1,0 +1,41 @@
+<!-- Login  -->
+{% if request.user.is_authenticated %}
+<p>{{request.user}}</p>
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">logout</button>
+</form>
+
+{% else %}
+<a href="{% url 'login' %}">Login </a>
+
+{% endif %}
+<hr>
+
+
+<h1>My To Do App</h1>
+
+<!-- Create Task -->
+<a href="{% url 'task-create' %}">Add Task</a> <!-- url name-->
+
+
+<!-- search form -->
+<form method="GET">
+    <input type="text" name="search-area" value="{{search_input}}">
+    <input type="submit" value="search">
+</form>
+
+<!-- Table of Tasks -->
+<table border="1">
+    <tr>
+        <th>item</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td style="text-align: center;">{{task.title}}</td>
+        <td> <a href="{% url 'task' task.id %}">view</a></td>
+        <td> <a href="{% url 'task-update' task.id %}">update</a></td>
+        <td> <a href="{% url 'task-delete' task.id %}">Delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
